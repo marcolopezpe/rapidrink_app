@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:badges/badges.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rapidrink_app/core/theme/app_colors.dart';
 import 'package:rapidrink_app/ui/carrito/carrito_view.dart';
@@ -144,13 +147,7 @@ class DrawerMenu extends StatelessWidget {
                     ),
                     ListTile(
                       onTap: () {
-                        Navigator.pushReplacement<void, void>(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const LoginView(),
-                          ),
-                        );
+                        _confirmarCerrarSesion(context);
                       },
                       leading: const Icon(Icons.exit_to_app),
                       title: const Text(
@@ -168,5 +165,39 @@ class DrawerMenu extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _confirmarCerrarSesion(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Cerrar Sesion?"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [Text("¿Esta seguro de Cerrar Sesion?")],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement<void, void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (context) => const LoginView(),
+                    ),
+                  );
+                },
+                child: const Text("Si"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No"),
+              ),
+            ],
+          );
+        });
   }
 }
